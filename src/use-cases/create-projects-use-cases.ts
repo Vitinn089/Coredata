@@ -31,22 +31,22 @@ export class  CreateProjectUseCases {
 				cover: project.capaUrl,
 				image:project.imageUrl
 			});
-
-			project.languages.map(async lang => {
-				this.projectRepository.createLanguages({
+			
+			for (const lang of project.languages) {
+				await this.projectRepository.createLanguages({
 					projectId: id,
 					name: lang
-				}).then(() => {
-					project.topics.map( topic => {
-						this.projectRepository.createTopics({
-							projectId: id,
-							name: topic
-						}).catch(error => {throw {error};});
-					});
 				});
-			});
+			}
+
+			for (const topic of project.languages) {
+				await this.projectRepository.createTopics({
+					projectId: id,
+					name: topic
+				});
+			}
 		} catch (error) {
-			throw {method: 'Ocorreu um erro ao salvar o produto.', error};
+			throw {method: 'Ocorreu um erro ao salvar os produtos no banco de dados.', error};
 		}
 	}
 }
