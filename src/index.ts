@@ -1,16 +1,13 @@
 import express from 'express';
-import dotenv from 'dotenv';
 import cors from 'cors';
 import acessLog from './middlewares/acessLog';
 import handleCors from './middlewares/handleCors';
 import vitinn from './routes/vitinn';
 import updateConfig from './routes/updateConfig';
+import appConfigs from './config/config';
 
-dotenv.config({
-	path: process.env.NODE_ENV === 'development ' ? '.env.develop' : process.env.NODE_ENV === 'test' ? '.env.testing' : '.env'
-});
 const app = express();
-const PORT = process.env.PORT;
+const PORT = appConfigs.PORT;
 
 app.use(handleCors);
 app.use(cors());
