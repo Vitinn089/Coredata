@@ -48,13 +48,31 @@ export class PostgresProjectRepository implements ProjectRepository {
 		}
 	}
 
+	async getProjects() {
+		this.sql = 'SELECT * FROM tb_projects;\n';
+
+		return (await this.client).query(this.sql).then(data => data.rows);
+	}
+
+	async getLanguages() {
+		this.sql = 'SELECT * FROM tb_languages;\n';
+
+		return (await this.client).query(this.sql).then(data => data.rows);
+	}
+
+	async getTopics() {
+		this.sql = 'SELECT * FROM tb_topics;\n';
+
+		return (await this.client).query(this.sql).then(data => data.rows);
+	}
+
 	async createProject(data: CreateProject) {
 		const values = Object.values(data);
 		this.sql = 'INSERT INTO tb_projects(project_id, project_name, project_title, project_description, project_repository, project_display, project_cover, project_image) VALUES ($1, $2, $3, $4, $5, $6, $7, $8);\n';
 
 		// this.createDb();
 		await (await this.client).query(this.sql, values)
-			.catch(error => {console.error({method: 'createProject()', ...error});});
+			.catch(error => {console.error({method: 'Project()', ...error});});
 
 		this.sql = '';
 	}
