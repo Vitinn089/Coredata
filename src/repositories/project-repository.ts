@@ -10,13 +10,11 @@ export interface CreateProject {
 }
 
 export interface CreateLanguages {
-    id: string,
 	projectId: string,
 	name: string
 }
 
 export interface CreateTopics {
-    id: string,
 	projectId: string,
 	name: string
 }

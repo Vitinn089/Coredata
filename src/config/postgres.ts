@@ -1,11 +1,16 @@
 import { Pool } from 'pg';
 
+/* eslint-disable no-var */
+declare global {
+	var connection: Pool;
+}
+
 export default async function connect() {
 	if (global.connection)
-		return global.connection.connect();
+		return await global.connection.connect();
 
 	const pool = new Pool({
-		connectionString: 'postgres://fyazuind:r34WG7VcdfJvN4WplbWYHEk-hfyYELv1@isilo.db.elephantsql.com:5432/fyazuind'
+		connectionString: `postgresql://${ process.env.PGUSER }:${ process.env.PGPASSWORD }@${ process.env.PGHOST }:${ process.env.PGPORT }/${ process.env.PGDATABASE }`
 	});
 
 	//apenas testando a conexão
@@ -18,5 +23,5 @@ export default async function connect() {
 
 	//guardando para usar sempre o mesmo
 	global.connection = pool;
-	return pool.connect();
+	return await pool.connect();
 }
