@@ -4,6 +4,6 @@ import { NextFunction, Request, Response } from 'express';
 export default function acessLog (req: Request, res: Response, next: NextFunction) {
 	const timeElapsed = Date.now();
 	const time = new Date(timeElapsed);
-	console.log(`${time.toLocaleString('pt-Br')}\t${req.path}`);
+	console.log(`\n${time.toLocaleString('pt-Br')}\t${req.path}`);
 	next();
 }

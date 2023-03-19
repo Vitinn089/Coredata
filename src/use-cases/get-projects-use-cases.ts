@@ -1,4 +1,5 @@
 import { ProjectRepository } from '../repositories/project-repository';
+import BdError from '../utils/error';
 
 export class GetProjectsUseCases {
 	constructor(
@@ -28,8 +29,10 @@ export class GetProjectsUseCases {
 			});
 
 			return obj;
-		} catch (error) {
-			throw {method: 'Ocorreu um erro recuperar os projetos do banco de dados.', error};
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		} catch (error: any) {
+			const msg = `Ocorreu um erro ao buscar os projetos no banco de dados.\n\tMétodo: ${error.method}\n\t${error.msgError}`;
+			throw new BdError(msg, error);
 		}
 	}
 }

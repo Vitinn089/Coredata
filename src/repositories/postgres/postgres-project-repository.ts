@@ -51,19 +51,25 @@ export class PostgresProjectRepository implements ProjectRepository {
 	async getProjects() {
 		this.sql = 'SELECT project_id AS id, project_name AS name, project_title AS title, project_description AS description, project_repository AS url, project_display AS display, project_cover AS capaUrl, project_image AS imageUrl FROM tb_projects;\n';
 
-		return (await this.client).query(this.sql).then(data => data.rows);
+		return (await this.client).query(this.sql)
+			.then(data => data.rows)
+			.catch(error => {throw {method: 'getProjects()', error};});
 	}
 
 	async getLanguages() {
 		this.sql = 'SELECT * FROM tb_languages;\n';
 
-		return (await this.client).query(this.sql).then(data => data.rows);
+		return (await this.client).query(this.sql)
+			.then(data => data.rows)
+			.catch(error => {throw {method: 'getLanguages()', error};});
 	}
 
 	async getTopics() {
 		this.sql = 'SELECT * FROM tb_topics;\n';
 
-		return (await this.client).query(this.sql).then(data => data.rows);
+		return (await this.client).query(this.sql)
+			.then(data => data.rows)
+			.catch(error => {throw {method: 'getTopics()', error};});
 	}
 
 	async createProject(data: CreateProject) {
@@ -72,7 +78,7 @@ export class PostgresProjectRepository implements ProjectRepository {
 
 		// this.createDb();
 		await (await this.client).query(this.sql, values)
-			.catch(error => {console.error({method: 'Project()', ...error});});
+			.catch(error => {throw {method: 'createProject()', error};});
 
 		this.sql = '';
 	}
@@ -83,7 +89,7 @@ export class PostgresProjectRepository implements ProjectRepository {
 
 		// this.createDb();
 		await (await this.client).query(this.sql, values)
-			.catch(error => {console.error({method: 'createLanguages()', ...error});});
+			.catch(error => {throw {method: 'createLanguages()', error};});
 
 		this.sql = '';
 	}
@@ -94,7 +100,7 @@ export class PostgresProjectRepository implements ProjectRepository {
 
 		// this.createDb();
 		await (await this.client).query(this.sql, values)
-			.catch(error => {console.error({method: 'createTopics()', ...error});});
+			.catch(error => {throw {method: 'createTopics()', error};});
 
 		this.sql = '';
 	}

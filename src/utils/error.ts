@@ -1,11 +1,13 @@
-interface BdErrorProperty {
-	
-}
+interface ObjectError {
+	method: string;
+	msgError: string;
+  }
 
 export default class BdError extends Error {
-	private method: string;
-	constructor(method: string, msg: undefined) {
+	private errorMensage: unknown;
+	constructor(msg: string, error: ObjectError) {
 		super(msg);
-		this.method = method;
+		
+		this.errorMensage = error;
 	}
 }

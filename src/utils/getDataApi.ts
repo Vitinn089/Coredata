@@ -11,11 +11,13 @@ export interface ResponseRepositorys {
 }
 
 const headers = {
-	Authorization: `${process.env.TOKEN_GITHUB}`
+	// Authorization: `${process.env.TOKEN_GITHUB}`
 };
 
 export async function getDataApi() {
-	const repos: ResponseRepositorys[] = await axios.get('https://api.github.com/users/Vitinn089/repos', {headers}).then(res => res.data);
+	const repos: ResponseRepositorys[] = await axios.get('https://api.github.com/users/Vitinn089/repos', {headers})
+		.then(res => res.data)
+		.catch(err => {throw err;});
 
 	const projectsFiltereds = await Promise.all(projectsConfigs.map(async config => {
 		const projects = repos.filter((repo) => repo.name == config.name)[0];

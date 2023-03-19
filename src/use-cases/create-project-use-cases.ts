@@ -1,7 +1,8 @@
 import { ProjectRepository } from '../repositories/project-repository';
 import {v4 as uuidv4} from 'uuid';
+import BdError from '../utils/error';
 
-interface CreateProjectsUseCasesProject {
+interface CreateProjectUseCasesProject {
 	name: string,
 	title: string,
 	description: string,
@@ -18,7 +19,7 @@ export class  CreateProjectUseCases {
         private projectRepository: ProjectRepository
 	){}
 
-	async execute(project: CreateProjectsUseCasesProject) {
+	async execute(project: CreateProjectUseCasesProject) {
 		const id = uuidv4();
 		try {
 			await this.projectRepository.createProject({
@@ -45,8 +46,10 @@ export class  CreateProjectUseCases {
 					name: topic
 				});
 			}
-		} catch (error) {
-			throw {method: 'Ocorreu um erro ao salvar os produtos no banco de dados.', error};
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		} catch (error: any) {
+			const msg = `Ocorreu um erro ao salvar o produto ${project.name} no banco de dados.`;
+			throw new BdError(msg, error);
 		}
 	}
 }
