@@ -3,7 +3,6 @@ import cors from 'cors';
 import acessLog from './middlewares/acessLog';
 import handleCors from './middlewares/handleCors';
 import vitinn from './routes/vitinn';
-import updateConfig from './routes/updateConfig';
 import appConfigs from './config/config';
 
 const app = express();
@@ -14,7 +13,6 @@ app.use(cors());
 app.use(acessLog);
 app.use(express.json());
 app.use('/api/vitinn', vitinn);
-app.use('/api/update-config', updateConfig);
 
 
 app.listen(PORT, () => console.log(`\nServer is running in: http://localhost:${PORT}/` ));
