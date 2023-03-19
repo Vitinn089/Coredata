@@ -14,12 +14,12 @@ export class GetProjectsUseCases {
 			const obj = projects.map(project => {
 				return {
 					...project,
-					project_topics: topics.reduce((ac: string[], topic ) => {
+					topics: topics.reduce((ac: string[], topic ) => {
 						if (project.project_id === topic.project_id)
 							ac.push(topic.topic_name);
 						return ac;
 					}, []),
-					project_languages: languages.reduce((ac: string[], language) => {
+					languages: languages.reduce((ac: string[], language) => {
 						if (project.project_id === language.project_id)
 							ac.push(language.language_name);
 						return ac;

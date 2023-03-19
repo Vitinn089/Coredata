@@ -14,7 +14,7 @@ router.get('/', async (req, res) => {
 	res.json(await getProjectsUseCases.execute());
 });
 
-// Rota para atualizar  o banco de dados com base nas configuraçõesl
+// Rota para atualizar  o banco de dados com base nas configurações
 router.get('/update-config',  async (req, res) => {
 	try {
 		const postgresProjectRepository = new PostgresProjectRepository();

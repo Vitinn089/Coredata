@@ -49,7 +49,7 @@ export class PostgresProjectRepository implements ProjectRepository {
 	}
 
 	async getProjects() {
-		this.sql = 'SELECT * FROM tb_projects;\n';
+		this.sql = 'SELECT project_id AS id, project_name AS name, project_title AS title, project_description AS description, project_repository AS url, project_display AS display, project_cover AS capaUrl, project_image AS imageUrl FROM tb_projects;\n';
 
 		return (await this.client).query(this.sql).then(data => data.rows);
 	}
