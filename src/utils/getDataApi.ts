@@ -1,5 +1,6 @@
 import axios from 'axios';
 import projectsConfigs from '../config/projects';
+import BdErrorHandler from '../_infra/errorHandler/db-error-handler';
 // import { Request, Response } from 'express';
 
 export interface ResponseRepositorys {
@@ -11,24 +12,32 @@ export interface ResponseRepositorys {
 }
 
 const headers = {
-	// Authorization: `${process.env.TOKEN_GITHUB}`
+	Authorization: `${process.env.TOKEN_GITHUB}`
 };
 
 export async function getDataApi() {
-	const repos: ResponseRepositorys[] = await axios.get('https://api.github.com/users/Vitinn089/repos', {headers})
-		.then(res => res.data)
-		.catch(err => {throw err;});
+	try {
+		const repos: ResponseRepositorys[] = await axios.get('https://api.github.com/users/Vitinn089/repos', {headers})
+			.then(res => res.data)
+			.catch(err => {throw err;});
 
-	const projectsFiltereds = await Promise.all(projectsConfigs.map(async config => {
-		const projects = repos.filter((repo) => repo.name == config.name)[0];
-		const languages = await axios.get(projects.languages_url, {headers}).then(res => res.data);
-		return {
-			...config,
-			description: projects.description || '',
-			url: projects.url,
-			topics: projects.topics,
-			languages: Object.keys(languages)
-		};
-	}));
-	return projectsFiltereds;
+		const projectsFiltereds = await Promise.all(projectsConfigs.map(async config => {
+			const projects = repos.filter((repo) => repo.name == config.name)[0];
+			const languages = await axios.get(projects.languages_url, {headers}).then(res => res.data);
+			return {
+				...config,
+				description: projects.description || '',
+				url: projects.url,
+				topics: projects.topics,
+				languages: Object.keys(languages)
+			};
+		}));
+		return projectsFiltereds;
+
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	} catch (error: any) {
+		const msg = 'Ocorreu um erro ao obter dados da API.';
+		throw new BdErrorHandler(msg, error);
+	}
+	
 }

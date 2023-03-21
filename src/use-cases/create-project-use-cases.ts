@@ -1,6 +1,7 @@
 import { ProjectRepository } from '../repositories/project-repository';
 import {v4 as uuidv4} from 'uuid';
-import BdError from '../utils/error';
+import BdErrorHandler from '../_infra/errorHandler/db-error-handler';
+import { Logger } from '../_infra/logger';
 
 interface CreateProjectUseCasesProject {
 	name: string,
@@ -16,7 +17,9 @@ interface CreateProjectUseCasesProject {
 
 export class  CreateProjectUseCases {
 	constructor(
-        private projectRepository: ProjectRepository
+        private projectRepository: ProjectRepository,
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		private logger: Logger<any>
 	){}
 
 	async execute(project: CreateProjectUseCasesProject) {
@@ -31,7 +34,7 @@ export class  CreateProjectUseCases {
 				display: project.display,
 				cover: project.capaUrl,
 				image:project.imageUrl
-			});
+			}).then(() => this.logger.log.info(`Projeto ${project.name} adicionado no banco de dados`));
 			
 			for (const lang of project.languages) {
 				await this.projectRepository.createLanguages({
@@ -39,6 +42,7 @@ export class  CreateProjectUseCases {
 					name: lang
 				});
 			}
+			this.logger.log.info(`Linguagens do projeto ${project.name} adicionadas ao banco de dados`);
 
 			for (const topic of project.languages) {
 				await this.projectRepository.createTopics({
@@ -46,10 +50,12 @@ export class  CreateProjectUseCases {
 					name: topic
 				});
 			}
+			this.logger.log.info(`Topicos do projeto ${project.name} adicionados ao banco de dados\n`);
+
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		} catch (error: any) {
-			const msg = `Ocorreu um erro ao salvar o produto ${project.name} no banco de dados.`;
-			throw new BdError(msg, error);
+			const msg = `Ocorreu um erro ao salvar o produto ${project.name} no banco de dados.\n`;
+			throw new BdErrorHandler(msg, error);
 		}
 	}
 }

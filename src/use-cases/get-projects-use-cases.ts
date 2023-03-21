@@ -1,9 +1,12 @@
 import { ProjectRepository } from '../repositories/project-repository';
-import BdError from '../utils/error';
+import BdErrorHandler from '../_infra/errorHandler/db-error-handler';
+import { Logger } from '../_infra/logger';
 
 export class GetProjectsUseCases {
 	constructor(
-		private projectRepository: ProjectRepository
+		private projectRepository: ProjectRepository,
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		private logger: Logger<any>
 	){}
 
 	async execute() {
@@ -31,8 +34,8 @@ export class GetProjectsUseCases {
 			return obj;
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		} catch (error: any) {
-			const msg = `Ocorreu um erro ao buscar os projetos no banco de dados.\n\tMétodo: ${error.method}\n\t${error.msgError}`;
-			throw new BdError(msg, error);
+			const msg = 'Ocorreu um erro ao buscar os projetos no banco de dados.\n';
+			throw new BdErrorHandler(msg, error);
 		}
 	}
 }
