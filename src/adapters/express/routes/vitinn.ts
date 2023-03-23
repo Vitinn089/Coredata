@@ -1,5 +1,5 @@
 import { express } from '../server';
-import { PostgresProjectRepository } from '../../../repositories/postgres/postgres-project-repository';
+import { PostgresProjectsRepository } from '../../../repositories/postgres/postgres-projects-repository';
 import { CreateProjectUseCases } from '../../../use-cases/create-project-use-cases';
 import { GetProjectsUseCases } from '../../../use-cases/get-projects-use-cases';
 import { getDataApi } from '../../../utils/getDataApi';
@@ -9,7 +9,7 @@ const router = express.Router();
 const logger = new WinstonLogger();
 
 router.get('/', async (req, res) => {
-	const postgresProjectRepository = new PostgresProjectRepository();
+	const postgresProjectRepository = new PostgresProjectsRepository();
 	const getProjectsUseCases = new GetProjectsUseCases(postgresProjectRepository, logger);
 
 	res.status(200);
@@ -18,7 +18,7 @@ router.get('/', async (req, res) => {
 
 // Rota para atualizar  o banco de dados com base nas configurações
 router.get('/update-config', (req, res) => {
-	const postgresProjectRepository = new PostgresProjectRepository();
+	const postgresProjectRepository = new PostgresProjectsRepository();
 	const createProjectUseCases = new CreateProjectUseCases(postgresProjectRepository, logger);
 
 	getDataApi().then(async projects => {

@@ -1,4 +1,4 @@
-import { ProjectRepository } from '../repositories/project-repository';
+import { ProjectsRepository } from '../repositories/projects-repository';
 import {v4 as uuidv4} from 'uuid';
 import BdErrorHandler from '../_infra/errorHandler/db-error-handler';
 import { Logger } from '../_infra/logger';
@@ -17,7 +17,7 @@ interface CreateProjectUseCasesProject {
 
 export class  CreateProjectUseCases {
 	constructor(
-        private projectRepository: ProjectRepository,
+        private projectRepository: ProjectsRepository,
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		private logger: Logger<any>
 	){}
