@@ -1,6 +1,6 @@
 export interface QueryLanguage {
-	id: number,
-	name: string,
+	language_id: number,
+	language_name: string,
 }
 
 export interface CreateLanguage {
@@ -8,6 +8,6 @@ export interface CreateLanguage {
 }
 
 export interface LanguagesRepository {
-	get: () => Promise<QueryLanguage[]>;
+	get: (name?: string) => Promise<QueryLanguage[]>;
 	create: (data: CreateLanguage) => Promise<void>;
 }

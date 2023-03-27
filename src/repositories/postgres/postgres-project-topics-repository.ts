@@ -1,3 +1,4 @@
+import path from 'path';
 import { PoolClient } from 'pg';
 import connect from '../../config/postgres';
 import { CreateProjectTopics, ProjectTopicsRepository } from '../project-topics-repository';
@@ -11,19 +12,38 @@ export class PostgresProjectTopicsRepository implements ProjectTopicsRepository 
 		this.#sql = '';
 	}
 
-	async get() {
-		this.#sql = 'SELECT project_id, topics_id FROM tb_project_topics';
+	async get(project_id?: string) {
+		this.#sql = !project_id 
+			? 'SELECT project_id, topic_id FROM tb_project_topics'
+			: 'SELECT project_id, topic_id FROM tb_project_topics WHERE project_id=$1';
 
-		return (await this.#client).query(this.#sql)
+		return (await this.#client).query(this.#sql, !project_id ? [] : [project_id])
 			.then(data => data.rows)
-			.catch(error => {throw {method: 'get()', error};});
+			.catch(error => {
+				const msg = `method: create() file: ${path.basename(__filename)} erro:${error.detail}`;
+				throw msg;
+			});
+	}
+
+	async getTopics(project_id: string) {
+		this.#sql = 'SELECT project_id, topic_name FROM tb_project_topics RIGHT JOIN tb_topics ON tb_project_topics.topic_id = tb_topics.topic_id  WHERE project_id=$1;';
+		
+		return (await this.#client).query(this.#sql, !project_id ? [] : [project_id])
+			.then(data => data.rows)
+			.catch(error => {
+				const msg = `method: create() file: ${path.basename(__filename)} erro:${error.detail}`;
+				throw msg;
+			});
 	}
 	
 	async create(data: CreateProjectTopics) {
 		const values = Object.values(data);
-		this.#sql = 'INSERT INTO tb_project_topics(project_id, topics_id) VALUES ($1, $2)';
+		this.#sql = 'INSERT INTO tb_project_topics(project_id, topic_id) VALUES ($1, $2)';
 
-		(await this.#client).query(this.#sql, values)
-			.catch(error => {throw {method: 'create()', error};});
+		await (await this.#client).query(this.#sql, values)
+			.catch(error => {
+				const msg = `method: create() file: ${path.basename(__filename)} erro:${error.detail}`;
+				throw msg;
+			});
 	}
 }

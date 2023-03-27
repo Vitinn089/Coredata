@@ -1,45 +1,38 @@
-CREATE TABLE IF NOT EXISTS tb_projects (
-	project_id VARCHAR(36) UNIQUE NOT NULL,
-	project_name VARCHAR(50) UNIQUE NOT NULL,
-	project_title VARCHAR(50) NOT NULL,
-	project_desc VARCHAR(255),
-	project_repo VARCHAR(100),
-	project_site VARCHAR(100),
-	project_display boolean NOT NULL,
-	project_cover VARCHAR(100),
-	project_image VARCHAR(100),
+DROP TABLE tb_project_languages;
+DROP TABLE tb_project_topics;
+DROP TABLE tb_languages;
+DROP TABLE tb_topics;
+DROP TABLE tb_projects;
 
-	CONSTRAINT pk_project PRIMARY KEY (project_id)
-);
+DELETE FROM tb_project_languages;
+DELETE FROM tb_project_topics;
+DELETE FROM tb_languages;
+DELETE FROM tb_topics;
+DELETE FROM tb_projects;
 
-CREATE TABLE IF NOT EXISTS tb_languages (
-	language_id SERIAL UNIQUE NOT NULL,
-	language_name VARCHAR(50) NOT NULL,
+SELECT * FROM tb_languages;
+SELECT * FROM tb_topics;
+SELECT * FROM tb_projects;
+SELECT * FROM tb_project_languages;
+SELECT * FROM tb_project_topics;
 
-	CONSTRAINT pk_language PRIMARY KEY (language_id)
-);
+DELETE FROM tb_languages WHERE project_id='c9f69ae5-0fee-4be3-8b7c-05c825d0e45b';
+SELECT * FROM tb_languages;
 
-CREATE TABLE IF NOT EXISTS tb_topics  (
-	topic_id SERIAL UNIQUE NOT NULL,
-	topic_name VARCHAR(50) NOT NULL,
+DELETE FROM tb_topics WHERE project_id='c9f69ae5-0fee-4be3-8b7c-05c825d0e45b';
+SELECT * FROM tb_topics;
 
-	CONSTRAINT pk_topic PRIMARY KEY (topic_id)
-);
+DELETE FROM tb_projects WHERE project_id='10d2e2ab-b57b-4749-a3dd-055ed13b3af0';
+SELECT * FROM tb_projects;
 
-CREATE TABLE IF NOT EXISTS tb_project_languages (
-	project_id VARCHAR(36) UNIQUE NOT NULL,
-	language_id INT UNIQUE NOT NULL,
+SELECT tb_projects.project_id, project_name, language_name
+FROM tb_projects RIGHT JOIN tb_project_languages
+ON tb_projects.project_id = tb_project_languages.project_id
+RIGHT JOIN tb_languages ON tb_project_languages.language_id = tb_languages.language_id
+ORDER BY project_name ASC;
 
-	CONSTRAINT pk_project_languages PRIMARY KEY (project_id, language_id),
-    CONSTRAINT fk_project FOREIGN KEY(project_id) REFERENCES tb_projects(project_id),
-    CONSTRAINT fk_language FOREIGN KEY(language_id) REFERENCES tb_languages(language_id)
-);
-
-CREATE TABLE IF NOT EXISTS tb_project_topics (
-	project_id VARCHAR(36) UNIQUE NOT NULL,
-	topic_id INT UNIQUE NOT NULL,
-
-	CONSTRAINT pk_project_topics PRIMARY KEY (project_id, topic_id),
-    CONSTRAINT fk_project FOREIGN KEY(project_id) REFERENCES tb_projects(project_id),
-    CONSTRAINT fk_topic FOREIGN KEY(topic_id) REFERENCES tb_topics(topic_id)
-);
+SELECT tb_projects.project_id, project_name, topic_name
+FROM tb_projects RIGHT JOIN tb_project_topics
+ON tb_projects.project_id = tb_project_topics.project_id
+RIGHT JOIN tb_topics ON tb_project_topics.topic_id = tb_topics.topic_id
+ORDER BY project_name ASC;

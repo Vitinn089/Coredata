@@ -1,6 +1,10 @@
-export interface QueryProjectLanguages {
+export interface QueryAllProjectLanguages {
 	project_id: string,
-	language_id: number,
+	language_id?: number,
+}
+
+export interface QueryProjectLanguages  extends QueryAllProjectLanguages{
+	language_name: string
 }
 
 export interface CreateProjectLanguages {
@@ -9,6 +13,7 @@ export interface CreateProjectLanguages {
 }
 
 export interface ProjectLanguagesRepository {
-	get: () => Promise<QueryProjectLanguages[]>;
+	get: (project_id?: string) => Promise<QueryAllProjectLanguages[]>;
+	getLanguages: (project_id: string) => Promise<QueryProjectLanguages[]>;
 	create: (data: CreateProjectLanguages) => Promise<void>;
 }

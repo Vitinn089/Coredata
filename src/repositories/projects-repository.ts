@@ -23,6 +23,6 @@ export interface QueryProject {
 }
 
 export interface ProjectsRepository {
-	get: () => Promise<QueryProject[]>;
+	get: (name?: string) => Promise<QueryProject[]>;
     create: (data: CreateProject) => Promise<void>;
 }

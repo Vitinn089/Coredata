@@ -1,10 +1,3 @@
-export interface ObjectError {
-	method: string;
-	msgError: string;
-}
-
-export interface ErrorHandler extends Error {
-	errorMensage: unknown;
-	
+export interface IErrorHandler extends Error {
 	logError?: () => void
 }

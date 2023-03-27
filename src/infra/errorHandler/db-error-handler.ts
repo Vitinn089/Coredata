@@ -1,10 +1,7 @@
-import { ErrorHandler, ObjectError } from '../error-handler';
+import { IErrorHandler } from '../error-handler';
 
-export default class BdErrorHandler extends Error implements ErrorHandler {
-	errorMensage: unknown;
-	constructor(msg: string, error: ObjectError) {
+export default class ErrorHandler extends Error implements IErrorHandler {
+	constructor(msg: string) {
 		super(msg);
-		
-		this.errorMensage = error;
 	}
 }

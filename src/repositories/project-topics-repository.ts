@@ -1,6 +1,10 @@
-export interface QueryProjectTopics {
+export interface QueryAllProjectTopics {
 	project_id: string,
-	topic_id: number,
+	topic_id?: number
+}
+
+export interface QueryProjectTopics extends QueryAllProjectTopics{
+	topic_name: string
 }
 
 export interface CreateProjectTopics {
@@ -9,6 +13,7 @@ export interface CreateProjectTopics {
 }
 
 export interface ProjectTopicsRepository {
-	get: () => Promise<QueryProjectTopics[]>;
+	get: (project_id?: string) => Promise<QueryAllProjectTopics[]>;
+	getTopics: (project_id: string) => Promise<QueryProjectTopics[]>;
 	create: (data: CreateProjectTopics) => Promise<void>;
 }

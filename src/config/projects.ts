@@ -3,6 +3,7 @@ export default [
 		name:'devfinance',
 		title:'devFinance',
 		display:true,
+		site: '',
 		capaUrl:'/images/o-capa-devfinance.png',
 		imageUrl:'/images/inicio-devfinance.png'
 	},
@@ -10,6 +11,7 @@ export default [
 		name:'feedget-web',
 		title:'Feedget',
 		display:true,
+		site: '',
 		capaUrl:'/images/o-capa-feedget-web.png',
 		imageUrl:'/images/inicio-feedget-web.png'
 	},
@@ -17,6 +19,7 @@ export default [
 		name:'proffy',
 		title:'Proffys',
 		display:true,
+		site: '',
 		capaUrl:'/images/o-capa-proffy.png',
 		imageUrl:'/images/inicio-proffy.png'
 	},
@@ -24,6 +27,7 @@ export default [
 		name:'bossfoot',
 		title:'Boosfoot',
 		display:false,
+		site: '',
 		capaUrl:'',
 		imageUrl:''
 	},
@@ -31,6 +35,7 @@ export default [
 		name:'Vitinn089',
 		title:'Vitinn',
 		display:false,
+		site: '',
 		capaUrl:'',
 		imageUrl:''
 	}

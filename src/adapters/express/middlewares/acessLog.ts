@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { WinstonLogger } from '../../../_infra/winston/winston-logger';
+import { WinstonLogger } from '../../../infra/winston/winston-logger';
 
 const logger = new WinstonLogger();
 

@@ -14,10 +14,15 @@ export class WinstonLogger implements Logger<winston.Logger>{
 			),
 			transports: [
 				new transports.File({
+					level: process.env.NODE_ENV == 'development' ? 'debug' : 'info',
 					filename: `${__dirname}/../../logs/log-api.log`
 				}),
+				new transports.File({
+					level: 'error',
+					filename: `${__dirname}/../../logs/log-errors.log`
+				}),
 				new transports.Console({
-					level: 'debug'
+					level: process.env.NODE_ENV == 'development' ? 'debug' : 'info'
 				})
 			]
 		});

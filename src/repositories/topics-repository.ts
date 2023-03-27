@@ -1,6 +1,6 @@
 export interface QueryTopic {
-	id: number,
-	name: string,
+	topic_id: number,
+	topic_name: string,
 }
 
 export interface CreateTopic {
@@ -8,6 +8,6 @@ export interface CreateTopic {
 }
 
 export interface TopicsRepository {
-	get: () => Promise<QueryTopic[]>;
+	get: (name?: string) => Promise<QueryTopic[]>;
 	create: (data: CreateTopic) => Promise<void>;
 }
