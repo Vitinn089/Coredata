@@ -26,12 +26,12 @@ router.get('/', async (req, res) => {
 		logger
 	);
 
-	res.status(200).json(await getProjectsUseCases.execute()
-		.then(data => data)
+	return await getProjectsUseCases.execute()
+		.then(data => res.status(200).json(data))
 		.catch(err =>{
 			logger.log.error(err);
-			res.status(500).json({erro: err.message});
-		}));
+			return res.status(500).json({erro: err.message});
+		});
 });
 
 // Rota para atualizar  o banco de dados com base nas configurações
@@ -57,7 +57,7 @@ router.get('/update-config', (req, res) => {
 		for (const project of projects) {
 			await createDatabaseSettingsUseCases.execute(project);
 		}
-		res.status(201).send();
+		return res.status(201).send();
 	})
 		.then(() => logger.log.info('Configurações cadastradas com sucesso!\n'))
 		.catch(err =>{
