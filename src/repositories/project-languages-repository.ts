@@ -1,6 +1,6 @@
 export interface QueryAllProjectLanguages {
 	project_id: string,
-	language_id?: number,
+	language_id: number,
 }
 
 export interface QueryProjectLanguages  extends QueryAllProjectLanguages{

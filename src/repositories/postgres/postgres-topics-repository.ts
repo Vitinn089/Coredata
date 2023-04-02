@@ -14,8 +14,8 @@ export class PostgresTopicsRepository implements TopicsRepository {
 
 	async get(name?: string) {
 		this.#sql = !name 
-			? 'SELECT * FROM tb_topics;\n' 
-			: 'SELECT * FROM tb_topics WHERE topic_name=$1\n' ;
+			? 'SELECT topic_id AS id, topic_name AS name FROM tb_topics;\n' 
+			: 'SELECT topic_id AS id, topic_name AS name FROM tb_topics WHERE topic_name=$1\n' ;
 
 		return (await this.#client).query(this.#sql, !name ? [] : [name])
 			.then(data => data.rows)

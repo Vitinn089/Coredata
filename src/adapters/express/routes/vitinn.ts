@@ -30,12 +30,12 @@ router.get('/', async (req, res) => {
 		.then(data => res.status(200).json(data))
 		.catch(err =>{
 			logger.log.error(err);
-			return res.status(500).json({erro: err.message});
+			res.status(500).json({erro: err.message});
 		});
 });
 
 // Rota para atualizar  o banco de dados com base nas configurações
-router.get('/update-config', (req, res) => {
+router.get('/update-config', async (req, res) => {
 	const postgresSchemaRepository = new PostgresSchemaRepository();
 	const postgresProjectsRepository = new PostgresProjectsRepository();
 	const postgresLanguagesRepository = new PostgresLanguagesRepository();
@@ -44,12 +44,12 @@ router.get('/update-config', (req, res) => {
 	const postgresProjectTopicsRepository = new PostgresProjectTopicsRepository();
 
 	const createDatabaseSettingsUseCases = new CreateDatabaseSettingsUseCases(
-		postgresSchemaRepository, 
 		postgresProjectsRepository, 
 		postgresLanguagesRepository, 
 		postgresTopicsRepository, 
 		postgresProjectLanguagesRepository,
 		postgresProjectTopicsRepository, 
+		postgresSchemaRepository, 
 		logger
 	);
 
@@ -57,12 +57,12 @@ router.get('/update-config', (req, res) => {
 		for (const project of projects) {
 			await createDatabaseSettingsUseCases.execute(project);
 		}
-		return res.status(201).send();
+		res.status(201).send();
 	})
 		.then(() => logger.log.info('Configurações cadastradas com sucesso!\n'))
 		.catch(err =>{
 			logger.log.error(err);
-			return res.status(500).json({erro: err.message});
+			res.status(500).json({erro: err.message});
 		});
 });
 

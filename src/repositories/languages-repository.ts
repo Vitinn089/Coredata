@@ -1,6 +1,6 @@
 export interface QueryLanguage {
-	language_id: number,
-	language_name: string,
+	id: number,
+	name: string,
 }
 
 export interface CreateLanguage {

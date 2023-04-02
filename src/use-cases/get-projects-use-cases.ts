@@ -1,4 +1,7 @@
-import BdErrorHandler from '../infra/errorHandler/db-error-handler';
+import Language from '../entities/language';
+import Project from '../entities/project';
+import Topic from '../entities/topic';
+import BdErrorHandler from '../infra/errorHandler/error-handler';
 import { Logger } from '../infra/logger';
 import { ProjectLanguagesRepository } from '../repositories/project-languages-repository';
 import { ProjectTopicsRepository } from '../repositories/project-topics-repository';
@@ -21,23 +24,29 @@ export class GetProjectsUseCases {
 				const projectLanguages = await this.projectLanguagesRepository.getLanguages(project.id);
 				const projectTopics = await this.projectTopicsRepository.getTopics(project.id);
 
-				const languages = projectLanguages.reduce((ac: string[], language) => {
-					if (project.id === language.project_id)
-						ac.push(language.language_name);
-					return ac;
-				}, []);
+				// const languages = projectLanguages.reduce((ac: string[], language) => {
+				// 	if (project.id === language.project_id)
+				// 		ac.push(language.language_name);
+				// 	return ac;
+				// }, []);
 
-				const topics = projectTopics.reduce((ac: string[], topic ) => {
-					if (project.id === topic.project_id)
-						ac.push(topic.topic_name);
-					return ac;
-				}, []);
+				// const topics = projectTopics.reduce((ac: string[], topic ) => {
+				// 	if (project.id === topic.project_id)
+				// 		ac.push(topic.topic_name);
+				// 	return ac;
+				// }, []);
+
+				const topics = projectTopics.map(topic => {
+					return new Topic({id: topic.topic_id, name: topic.topic_name});
+				});
+
+				const languages = projectLanguages.map(lang => {
+					return new Language({id: lang.language_id, name: lang.language_name});
+				});
+
+				const projectb = new Project({...project, topics, languages});
 				
-				return {
-					...project,
-					topics,
-					languages
-				};
+				return projectb;
 			}));
 			
 			this.logger.log.info('Todos os projetos foram consultados no banco de dados.');

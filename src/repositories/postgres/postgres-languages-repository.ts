@@ -14,8 +14,8 @@ export class PostgresLanguagesRepository implements LanguagesRepository{
 	
 	async get(name?: string) {
 		this.#sql = !name 
-			? 'SELECT * FROM tb_languages;\n' 
-			: 'SELECT * FROM tb_languages WHERE language_name=$1;\n';
+			? 'SELECT language_id AS id, language_name AS name FROM tb_languages;\n' 
+			: 'SELECT language_id AS id, language_name AS name FROM tb_languages WHERE language_name=$1;\n';
 
 		return (await this.#client).query(this.#sql, !name ? [] : [name])
 			.then(data => data.rows)

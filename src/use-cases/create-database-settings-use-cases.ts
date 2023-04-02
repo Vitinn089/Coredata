@@ -1,6 +1,6 @@
 import { ProjectsRepository } from '../repositories/projects-repository';
 import {v4 as uuidv4} from 'uuid';
-import BdErrorHandler from '../infra/errorHandler/db-error-handler';
+import BdErrorHandler from '../infra/errorHandler/error-handler';
 import { Logger } from '../infra/logger';
 import { LanguagesRepository, QueryLanguage } from '../repositories/languages-repository';
 import { QueryTopic, TopicsRepository } from '../repositories/topics-repository';
@@ -23,20 +23,20 @@ interface CreateProjectUseCasesProject {
 
 export class  CreateDatabaseSettingsUseCases {
 	constructor(
-        private schemaRepository: SchemaRepository,
-        private projectsRepository: ProjectsRepository,
+		private projectsRepository: ProjectsRepository,
         private languagesRepository: LanguagesRepository,
         private topicsRepository: TopicsRepository,
         private projectLanguagesRepository: ProjectLanguagesRepository,
         private projectTopicsRepository: ProjectTopicsRepository,
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		private logger: Logger<any>
+        private schemaRepository?: SchemaRepository,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+		private logger?: Logger<any>
 	){}
 
 	async execute(project: CreateProjectUseCasesProject) {
 		const id = uuidv4();
 		try {
-			await this.schemaRepository.create();
+			await this.schemaRepository?.create();
 
 			if((await this.projectsRepository.get(project.name)).length)
 				throw `O projeto ${project.name} já existe no banco de dados.`;
@@ -51,7 +51,7 @@ export class  CreateDatabaseSettingsUseCases {
 				display: project.display,
 				cover: project.capaUrl,
 				image:project.imageUrl
-			}).then(() => this.logger.log.info(`Projeto ${project.name} adicionado no banco de dados`));
+			}).then(() => this.logger?.log.info(`Projeto ${project.name} adicionado no banco de dados`));
 
 			// Salva languages
 			for (const lang of project.languages) {
@@ -59,25 +59,25 @@ export class  CreateDatabaseSettingsUseCases {
 					await this.languagesRepository.create({
 						name: lang
 					});
-					this.logger.log.info(`Linguagem ${lang} adicionada ao banco de dados`);
+					this.logger?.log.info(`Linguagem ${lang} adicionada ao banco de dados`);
 				}
 			}
 
 			// Salva relação project languages
 			for (const lang of project.languages) {
-				const currentTopic: QueryLanguage = (await this.languagesRepository.get(lang))[0];
-				const projectTopic = (await this.projectLanguagesRepository.get(id)).filter((projectLang) => projectLang.project_id == id && projectLang.language_id == currentTopic.language_id ? true : false);
+				const currentLanguage: QueryLanguage = (await this.languagesRepository.get(lang))[0];
+				const projectLanguage = (await this.projectLanguagesRepository.get(id)).filter((projectLang) => projectLang.project_id == id && projectLang.language_id == currentLanguage.id ? true : false);
 
-				if(!currentTopic)
+				if(!currentLanguage)
 					throw `A linguagem ${lang} não está cadastrada no banco de dados!`;
 
-				if (projectTopic.length !== 0)
+				if (projectLanguage.length !== 0)
 					throw `O projeto ${project.name} já possui a linguagem ${lang}`;
 
-				await this.projectLanguagesRepository.create({project_id: id, language_id: currentTopic.language_id});
+				await this.projectLanguagesRepository.create({project_id: id, language_id: currentLanguage.id});
 				
 			}
-			this.logger.log.info(`Linguagens do projeto ${project.name} adicionadas ao banco de dados`);
+			this.logger?.log.info(`Linguagens do projeto ${project.name} adicionadas ao banco de dados`);
 
 			// Salva topics
 			for (const topic of project.topics) {
@@ -85,14 +85,14 @@ export class  CreateDatabaseSettingsUseCases {
 					await this.topicsRepository.create({
 						name: topic
 					});
-					this.logger.log.info(`Topico ${topic} adicionado ao banco de dados`);
+					this.logger?.log.info(`Topico ${topic} adicionado ao banco de dados`);
 				}
 			}
 
 			// Salva relação project topics
 			for (const topic of project.topics) {
 				const topicAlreadyExists: QueryTopic = (await this.topicsRepository.get(topic))[0];
-				const projectAlreadyHasTopic = (await this.projectTopicsRepository.get(id)).filter((projectTopic) => projectTopic.project_id == id && projectTopic.topic_id == topicAlreadyExists.topic_id ? true : false);
+				const projectAlreadyHasTopic = (await this.projectTopicsRepository.get(id)).filter((projectTopic) => projectTopic.project_id == id && projectTopic.topic_id == topicAlreadyExists.id ? true : false);
 				
 				if(!topicAlreadyExists)
 					throw `O topico ${topic} não está cadastrada no banco de dados!`;
@@ -100,10 +100,10 @@ export class  CreateDatabaseSettingsUseCases {
 				if (projectAlreadyHasTopic.length !== 0)
 					throw `O projeto ${project.name} já possui a linguagem ${topic}`;
 
-				await this.projectTopicsRepository.create({project_id: id, topic_id: topicAlreadyExists.topic_id});
+				await this.projectTopicsRepository.create({project_id: id, topic_id: topicAlreadyExists.id});
 				
 			}
-			this.logger.log.info(`Topicos do projeto ${project.name} adicionados ao banco de dados`);
+			this.logger?.log.info(`Topicos do projeto ${project.name} adicionados ao banco de dados`);
 
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		} catch (error: any) {

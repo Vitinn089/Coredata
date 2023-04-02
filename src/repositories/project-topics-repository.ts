@@ -1,6 +1,5 @@
 export interface QueryAllProjectTopics {
-	project_id: string,
-	topic_id?: number
+	topic_id: number
 }
 
 export interface QueryProjectTopics extends QueryAllProjectTopics{

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import projectsConfigs from '../config/projects';
-import BdErrorHandler from '../infra/errorHandler/db-error-handler';
+import BdErrorHandler from '../infra/errorHandler/error-handler';
 import { WinstonLogger } from '../infra/winston/winston-logger';
 // import { Request, Response } from 'express';
 
