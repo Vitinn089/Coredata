@@ -14,8 +14,8 @@ export class PostgresProjectTopicsRepository implements ProjectTopicsRepository 
 
 	async get(project_id?: string) {
 		this.#sql = !project_id 
-			? 'SELECT project_id, topic_id FROM tb_project_topics'
-			: 'SELECT project_id, topic_id FROM tb_project_topics WHERE project_id=$1';
+			? 'SELECT project_id, topic_id AS id FROM tb_project_topics'
+			: 'SELECT project_id, topic_id AS id FROM tb_project_topics WHERE project_id=$1';
 
 		return (await this.#client).query(this.#sql, !project_id ? [] : [project_id])
 			.then(data => data.rows)
@@ -26,9 +26,9 @@ export class PostgresProjectTopicsRepository implements ProjectTopicsRepository 
 	}
 
 	async getTopics(project_id: string) {
-		this.#sql = 'SELECT project_id, topic_name FROM tb_project_topics RIGHT JOIN tb_topics ON tb_project_topics.topic_id = tb_topics.topic_id  WHERE project_id=$1;';
+		this.#sql = 'SELECT project_id, tb_topics.topic_id AS id, topic_name AS name FROM tb_project_topics RIGHT JOIN tb_topics ON tb_project_topics.topic_id = tb_topics.topic_id  WHERE project_id=$1;';
 		
-		return (await this.#client).query(this.#sql, !project_id ? [] : [project_id])
+		return (await this.#client).query(this.#sql, [project_id])
 			.then(data => data.rows)
 			.catch(error => {
 				const msg = `method: create() file: ${path.basename(__filename)} erro:${error.detail}`;

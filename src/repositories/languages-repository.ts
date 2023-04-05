@@ -1,10 +1,10 @@
 export interface QueryLanguage {
-	id: number,
-	name: string,
+	id: number
+	name: string
 }
 
 export interface CreateLanguage {
-	name: string;
+	name: string
 }
 
 export interface LanguagesRepository {

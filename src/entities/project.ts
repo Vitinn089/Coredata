@@ -1,4 +1,5 @@
 import ErrorHandler from '../infra/errorHandler/error-handler';
+import { arrayToString } from '../utils/array-to-string';
 import Language from './language';
 import Topic from './topic';
 
@@ -7,10 +8,10 @@ export interface ProjectProps {
 	name: string;
 	title: string;
 	description?: string;
-	url?: string;
+	repository?: string;
 	site?: string;
-	capaUrl?: string;
-	imageUrl?: string;
+	cover?: string;
+	image?: string;
 	display: boolean;
 	languages?: Language[];
 	topics?: Topic[];
@@ -26,8 +27,8 @@ export default class Project {
 			throw new ErrorHandler('The "id", "name", "title" and "display" properties are required!'); 
 
 		this.#props = props;
-		
 	}
+
 
 	get id() {
 		return this.#props.id;	
@@ -46,7 +47,7 @@ export default class Project {
 	}
 
 	get repository() {
-		return this.#props.url;
+		return this.#props.repository;
 	}
 
 	get site() {
@@ -54,23 +55,54 @@ export default class Project {
 	}
 
 	get cover() {
-		return this.#props.capaUrl;
+		return this.#props.cover;
 	}
 
 	get image() {
-		return this.#props.imageUrl;
+		return this.#props.image;
 	}
 
 	get display() {
 		return this.#props.display;
 	}
-
+	
+	set languages(lang: Language[]) {
+		this.#props.languages = lang;
+	}
+	
 	get languages() {
-		return this.#props.languages;
+		if (this.#props.languages)
+			return this.#props.languages;
+		return [];
+	}
+	
+	set topics(topic: Topic[]) {
+		this.#props.topics = topic;
 	}
 
 	get topics() {
-		return this.#props.topics;
+		if(this.#props.topics)
+			return this.#props.topics;
+		return [];
 	}
 
+	getJson() {
+		const {id, display, name, title, cover, description, image, repository, site} = this.#props;
+		const languages = arrayToString(this.#props.languages);
+		const topics = arrayToString(this.#props.languages);
+
+		return {
+			id,
+			name,
+			title,
+			description,
+			repository,
+			site,
+			cover,
+			image,
+			display,
+			languages,
+			topics,
+		};
+	}
 }

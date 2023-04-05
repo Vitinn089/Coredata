@@ -14,8 +14,8 @@ export class PostgresProjectsRepository implements ProjectsRepository {
 
 	async get(name?: string) {
 		this.#sql = !name 
-			? 'SELECT project_id AS id, project_name AS name, project_title AS title, project_desc AS description,  project_repo AS url, project_site AS site, project_display AS display, project_cover AS capaUrl, project_image AS imageUrl FROM tb_projects;\n' 
-			: 'SELECT project_id AS id, project_name AS name, project_title AS title, project_desc AS description,  project_repo AS url, project_site AS site, project_display AS display, project_cover AS capaUrl, project_image AS imageUrl FROM tb_projects WHERE project_name=$1;\n';
+			? 'SELECT project_id AS id, project_name AS name, project_title AS title, project_desc AS description,  project_repo AS repository, project_site AS site, project_display AS display, project_cover AS cover, project_image AS image FROM tb_projects;\n' 
+			: 'SELECT project_id AS id, project_name AS name, project_title AS title, project_desc AS description,  project_repo AS repository, project_site AS site, project_display AS display, project_cover AS cover, project_image AS image FROM tb_projects WHERE project_name=$1;\n';
 		
 		return await(await this.#client).query(this.#sql, !name ? [] : [name])
 			.then(data => data.rows)

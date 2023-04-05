@@ -1,8 +1,7 @@
 export interface QueryTopic {
-	id: number,
-	name: string,
+	id: number
+	name: string
 }
-
 export interface CreateTopic {
 	name: string
 }
