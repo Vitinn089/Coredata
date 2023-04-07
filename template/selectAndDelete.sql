@@ -34,8 +34,10 @@ ORDER BY project_name ASC;
 
 -- SELECTS
 
-SELECT project_id, language_name
-FROM tb_project_languages 
-RIGHT JOIN tb_languages 
-ON tb_project_languages.language_id = tb_languages.language_id  
-WHERE project_id=$1;
+SELECT project_id, tb_languages.language_id AS id, language_name AS name
+FROM tb_project_languages RIGHT JOIN tb_languages
+ON tb_project_languages.language_id = tb_languages.language_id  WHERE project_id=$1;
+
+SELECT project_id, tb_topics.topic_id AS id, topic_name AS name
+FROM tb_project_topics RIGHT JOIN tb_topics
+ON tb_project_topics.topic_id = tb_topics.topic_id  WHERE project_id=$1;

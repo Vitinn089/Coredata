@@ -1,5 +1,6 @@
 import Language from '../entities/language';
 import Project from '../entities/project';
+import Topic from '../entities/topic';
 import BdErrorHandler from '../infra/errorHandler/error-handler';
 import { Logger } from '../infra/logger';
 import { ProjectLanguagesRepository } from '../repositories/project-languages-repository';
@@ -44,8 +45,12 @@ export class GetProjectsUseCases {
 					return new Language({name: l.name, id: l.id});
 				});
 
-				project.languages = lang;
-				project.topics = topic;
+				const topics = top.map(l => {
+					return new Topic({name: l.name, id: l.id});
+				});
+
+				project.languages = languages;
+				project.topics = topics;
 				
 				return project;
 			}));

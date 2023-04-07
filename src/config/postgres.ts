@@ -1,10 +1,5 @@
 import { Pool } from 'pg';
 
-/* eslint-disable no-var */
-declare global {
-	var connection: Pool;
-}
-
 export default async function connect() {
 	if (global.connection)
 		return await global.connection.connect();

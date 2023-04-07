@@ -8,8 +8,6 @@ import { SchemaRepository } from '../repositories/schema-repository';
 import { ProjectLanguagesRepository } from '../repositories/project-languages-repository';
 import { ProjectTopicsRepository } from '../repositories/project-topics-repository';
 import Repository from '../entities/repository';
-import Language from '../entities/language';
-import Topic from '../entities/topic';
 
 type CreateProjectUseCasesRequest = Repository
 
@@ -49,7 +47,7 @@ export class  CreateProjectUseCases {
 			for (const lang of project.languages) {
 
 				if ((await this.languagesRepository.get(lang)).length == 0){
-					await this.languagesRepository.create(new Language({name: lang}));
+					await this.languagesRepository.create({name: lang});
 					this.logger?.log.info(`Linguagem ${lang} adicionada ao banco de dados`);
 				}
 			}
@@ -73,7 +71,7 @@ export class  CreateProjectUseCases {
 			// Salva topics
 			for (const topic of project.topics) {
 				if ((await this.topicsRepository.get(topic)).length == 0){
-					await this.topicsRepository.create(new Topic({name: topic}));
+					await this.topicsRepository.create({name: topic});
 					this.logger?.log.info(`Topico ${topic} adicionado ao banco de dados`);
 				}
 			}

@@ -34,7 +34,10 @@ export class CreateDatabaseSettingsUseCases {
 		const repositorys = await this.repositorysAdapter.getData().catch(err => {throw err;});
 		
 		for (const repository of repositorys) {
-			await createProjectUseCases.execute(repository).catch(err => {throw err;});
+			const projectAlreadyExists = await this.projectsRepository.get(repository.name);
+
+			if (!projectAlreadyExists.length)
+				await createProjectUseCases.execute(repository);
 		}
 	}
 }

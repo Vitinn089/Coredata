@@ -18,7 +18,7 @@ router.get('/', async (req, res) => {
 	const postgresProjectsRepository = new PostgresProjectsRepository();
 	const postgresProjectLanguagesRepository = new PostgresProjectLanguagesRepository();
 	const postgresProjectTopicsRepository = new PostgresProjectTopicsRepository();
-
+	
 	const getProjectsUseCases = new GetProjectsUseCases(
 		postgresProjectsRepository, 
 		postgresProjectLanguagesRepository,
@@ -40,12 +40,10 @@ router.get('/', async (req, res) => {
 		logger.log.error(error);
 		res.status(500).json({erro: error.message});
 	}
-
-	
 });
 
 // Rota para atualizar  o banco de dados com base nas configurações
-router.get('/update-config', async (req, res) => {
+router.get('/update-config', async (req, res, next) => {
 	const postgresSchemaRepository = new PostgresSchemaRepository();
 	const postgresProjectsRepository = new PostgresProjectsRepository();
 	const postgresLanguagesRepository = new PostgresLanguagesRepository();
@@ -69,13 +67,13 @@ router.get('/update-config', async (req, res) => {
 		await createDatabaseSettingsUseCases.execute()
 			.then(() => res.status(201).send())
 			.catch((error) => {throw error;});
+		next();
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	} catch (error: any) {
 		logger.log.error(error);
 		res.status(500).json({erro: error.message});
 	}
-	
 });
 
 export default router;

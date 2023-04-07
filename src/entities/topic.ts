@@ -1,8 +1,7 @@
 import ErrorHandler from '../infra/errorHandler/error-handler';
 
 export interface TopicProps {
-	project_id?: string;
-	id?: number;
+	id: number;
 	name: string;
 }
 
