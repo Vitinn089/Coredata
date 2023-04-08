@@ -2,8 +2,8 @@ import { ProjectsRepository } from '../repositories/projects-repository';
 import {v4 as uuidv4} from 'uuid';
 import BdErrorHandler from '../infra/errorHandler/error-handler';
 import { Logger } from '../infra/logger';
-import { LanguagesRepository, QueryLanguage } from '../repositories/languages-repository';
-import { QueryTopic, TopicsRepository } from '../repositories/topics-repository';
+import { LanguagesRepository, GetResponse } from '../repositories/languages-repository';
+import { GetResponse as GetResponseTopic, TopicsRepository } from '../repositories/topics-repository';
 import { SchemaRepository } from '../repositories/schema-repository';
 import { ProjectLanguagesRepository } from '../repositories/project-languages-repository';
 import { ProjectTopicsRepository } from '../repositories/project-topics-repository';
@@ -45,7 +45,6 @@ export class  CreateProjectUseCases {
 
 			// Salva languages
 			for (const lang of project.languages) {
-
 				if ((await this.languagesRepository.get(lang)).length == 0){
 					await this.languagesRepository.create({name: lang});
 					this.logger?.log.info(`Linguagem ${lang} adicionada ao banco de dados`);
@@ -54,7 +53,7 @@ export class  CreateProjectUseCases {
 
 			// Salva relação project languages
 			for (const lang of project.languages) {
-				const currentLanguage: QueryLanguage = (await this.languagesRepository.get(lang))[0];
+				const currentLanguage: GetResponse = (await this.languagesRepository.get(lang))[0];
 				const projectLanguage = (await this.projectLanguagesRepository.get(id)).filter((projectLang) => projectLang.project_id == id && projectLang.id == currentLanguage.id ? true : false);
 
 				if(!currentLanguage)
@@ -78,7 +77,7 @@ export class  CreateProjectUseCases {
 
 			// Salva relação project topics
 			for (const topic of project.topics) {
-				const topicAlreadyExists: QueryTopic = (await this.topicsRepository.get(topic))[0];
+				const topicAlreadyExists: GetResponseTopic  = (await this.topicsRepository.get(topic))[0];
 				const projectAlreadyHasTopic = (await this.projectTopicsRepository.get(id)).filter((projectTopic) => projectTopic.project_id == id && projectTopic.id == topicAlreadyExists.id ? true : false);
 				
 				if(!topicAlreadyExists)

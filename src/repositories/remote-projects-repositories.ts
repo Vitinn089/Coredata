@@ -1,6 +1,6 @@
 import Repository from '../entities/repository';
 
-export interface ResponseRepositorys {
+export interface ResponseRepositories {
 	name: string,
 	languages_url: string,
 	description: string,
@@ -8,6 +8,6 @@ export interface ResponseRepositorys {
 	url: string,
 }
 
-export interface RemoteProjectsRepository {
+export interface RemoteProjectsRepositories {
 	getData: () => Promise<Repository[]>
 }

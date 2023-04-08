@@ -1,16 +1,4 @@
-export interface CreateProject {
-    id: string,
-	name: string,
-	title: string,
-	description: string,
-	repository: string,
-	site: string,
-	display: boolean,
-	cover: string,
-	image:string
-}
-
-export interface QueryProject {
+export interface GetResponse {
 	id: string,
 	name: string,
 	title: string,
@@ -22,7 +10,19 @@ export interface QueryProject {
 	image: string,
 }
 
+export interface CreateRequest {
+    id: string,
+	name: string,
+	title: string,
+	description: string,
+	repository: string,
+	site: string,
+	display: boolean,
+	cover: string,
+	image:string
+}
+
 export interface ProjectsRepository {
-	get: (name?: string) => Promise<QueryProject[]>;
-    create: (data: CreateProject) => Promise<void>;
+	get: (name?: string) => Promise<GetResponse[]>;
+    create: (data: CreateRequest) => Promise<void>;
 }

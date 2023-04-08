@@ -1,3 +1,5 @@
+import ErrorHandler from '../infra/errorHandler/error-handler';
+
 export interface RepositoryProps {
 	name: string,
 	title: string,
@@ -15,9 +17,13 @@ export default class Repository {
 	#props: RepositoryProps;
 
 	constructor(props: RepositoryProps) {
+		const { name, title} = props;
+
+		if (!name || !title)
+			throw new ErrorHandler('The "name", "title" and "display" properties are required!');
+
 		this.#props = props;
 	}
-
 
 	get name () {
 		return this.#props.name;

@@ -1,7 +1,7 @@
 import path from 'path';
 import { PoolClient } from 'pg';
 import connect from '../../config/postgres';
-import { CreateProjectTopics, ProjectTopicsRepository } from '../project-topics-repository';
+import { CreateRequest, ProjectTopicsRepository } from '../project-topics-repository';
 
 export class PostgresProjectTopicsRepository implements ProjectTopicsRepository {
 	#client: Promise<PoolClient>;
@@ -36,7 +36,7 @@ export class PostgresProjectTopicsRepository implements ProjectTopicsRepository 
 			});
 	}
 	
-	async create(data: CreateProjectTopics) {
+	async create(data: CreateRequest) {
 		const values = Object.values(data);
 		this.#sql = 'INSERT INTO tb_project_topics(project_id, topic_id) VALUES ($1, $2)';
 

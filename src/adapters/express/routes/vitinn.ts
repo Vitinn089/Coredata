@@ -8,7 +8,7 @@ import { PostgresLanguagesRepository } from '../../../repositories/postgres/post
 import { PostgresTopicsRepository } from '../../../repositories/postgres/postgres-topics-repository';
 import { PostgresProjectLanguagesRepository } from '../../../repositories/postgres/postgres-project-languages-repository';
 import { PostgresProjectTopicsRepository } from '../../../repositories/postgres/postgres-project-topics-repository';
-import GithubRemoteProjectsRepository from '../../../repositories/github/github-remote-project-repository';
+import GithubRemoteProjectsRepositories from '../../../repositories/github/github-remote-projects-repositories';
 
 const router = express.Router();
 const logger = new WinstonLogger();
@@ -50,7 +50,7 @@ router.get('/update-config', async (req, res, next) => {
 	const postgresTopicsRepository = new PostgresTopicsRepository();
 	const postgresProjectLanguagesRepository = new PostgresProjectLanguagesRepository();
 	const postgresProjectTopicsRepository = new PostgresProjectTopicsRepository();
-	const githubRemoteProjectsRepository = new GithubRemoteProjectsRepository();
+	const githubRemoteProjectsRepositories = new GithubRemoteProjectsRepositories();
 
 	const createDatabaseSettingsUseCases = new CreateDatabaseSettingsUseCases(
 		postgresProjectsRepository, 
@@ -58,7 +58,7 @@ router.get('/update-config', async (req, res, next) => {
 		postgresTopicsRepository, 
 		postgresProjectLanguagesRepository,
 		postgresProjectTopicsRepository,
-		githubRemoteProjectsRepository,
+		githubRemoteProjectsRepositories,
 		postgresSchemaRepository, 
 		logger
 	);

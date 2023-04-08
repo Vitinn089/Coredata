@@ -1,13 +1,13 @@
-export interface QueryLanguage {
+export interface GetResponse {
 	id: number
 	name: string
 }
 
-export interface CreateLanguage {
+export interface CreateRequest {
 	name: string
 }
 
 export interface LanguagesRepository {
-	get: (name?: string) => Promise<QueryLanguage[]>;
-	create: (data: CreateLanguage) => Promise<void>;
+	get: (name?: string) => Promise<GetResponse[]>;
+	create: (data: CreateRequest) => Promise<void>;
 }

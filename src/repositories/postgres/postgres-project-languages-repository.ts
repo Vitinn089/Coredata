@@ -1,7 +1,7 @@
 import path from 'path';
 import { PoolClient } from 'pg';
 import connect from '../../config/postgres';
-import { CreateProjectLanguages, ProjectLanguagesRepository } from '../project-languages-repository';
+import { CreateRequest, ProjectLanguagesRepository } from '../project-languages-repository';
 
 export class PostgresProjectLanguagesRepository implements ProjectLanguagesRepository {
 	#client: Promise<PoolClient>;
@@ -36,7 +36,7 @@ export class PostgresProjectLanguagesRepository implements ProjectLanguagesRepos
 			});
 	}
 	
-	async create(data: CreateProjectLanguages) {
+	async create(data: CreateRequest) {
 		const values = Object.values(data);
 		this.#sql = 'INSERT INTO tb_project_languages(project_id, language_id) VALUES ($1, $2);';
 

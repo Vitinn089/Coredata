@@ -1,5 +1,5 @@
 import { Logger } from '../infra/logger';
-import { RemoteProjectsRepository } from '../repositories/remote-projects-repository';
+import { RemoteProjectsRepositories } from '../repositories/remote-projects-repositories';
 import { LanguagesRepository } from '../repositories/languages-repository';
 import { ProjectLanguagesRepository } from '../repositories/project-languages-repository';
 import { ProjectTopicsRepository } from '../repositories/project-topics-repository';
@@ -15,7 +15,7 @@ export class CreateDatabaseSettingsUseCases {
         private topicsRepository: TopicsRepository,
         private projectLanguagesRepository: ProjectLanguagesRepository,
         private projectTopicsRepository: ProjectTopicsRepository,
-		private repositorysAdapter: RemoteProjectsRepository,
+		private remoteProjectsRepositories: RemoteProjectsRepositories,
         private schemaRepository?: SchemaRepository,
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		private logger?: Logger<any>
@@ -31,7 +31,7 @@ export class CreateDatabaseSettingsUseCases {
 			this.schemaRepository, 
 			this.logger
 		);
-		const repositorys = await this.repositorysAdapter.getData().catch(err => {throw err;});
+		const repositorys = await this.remoteProjectsRepositories.getData().catch(err => {throw err;});
 		
 		for (const repository of repositorys) {
 			const projectAlreadyExists = await this.projectsRepository.get(repository.name);

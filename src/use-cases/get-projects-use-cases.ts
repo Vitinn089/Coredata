@@ -15,7 +15,7 @@ export class GetProjectsUseCases {
         private projectLanguagesRepository: ProjectLanguagesRepository,
         private projectTopicsRepository: ProjectTopicsRepository,
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		private logger: Logger<any>
+		private logger?: Logger<any>
 	){}
 
 	async execute(): GetProjectsUseCasesResponse {
@@ -55,7 +55,7 @@ export class GetProjectsUseCases {
 				return project;
 			}));
 			
-			this.logger.log.info('Todos os projetos foram consultados no banco de dados.');
+			this.logger?.log.info('Todos os projetos foram consultados no banco de dados.');
 			return obj;
 
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any

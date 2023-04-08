@@ -1,12 +1,12 @@
-export interface QueryTopic {
+export interface GetResponse {
 	id: number
 	name: string
 }
-export interface CreateTopic {
+export interface CreateRequest {
 	name: string
 }
 
 export interface TopicsRepository {
-	get: (name?: string) => Promise<QueryTopic[]>;
-	create: (data: CreateTopic) => Promise<void>;
+	get: (name?: string) => Promise<GetResponse[]>;
+	create: (data: CreateRequest) => Promise<void>;
 }

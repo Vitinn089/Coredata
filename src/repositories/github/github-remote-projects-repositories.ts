@@ -3,15 +3,15 @@ import projectsConfigs from '../../config/projects';
 import config from '../../config/config';
 import Repository from '../../entities/repository';
 import { WinstonLogger } from '../../infra/winston/winston-logger';
-import { RemoteProjectsRepository, ResponseRepositorys } from '../remote-projects-repository';
+import { RemoteProjectsRepositories, ResponseRepositories } from '../remote-projects-repositories';
 
-export default class GithubRemoteProjectsRepository implements RemoteProjectsRepository {
+export default class GithubRemoteProjectsRepository implements RemoteProjectsRepositories {
 	constructor(
 		private logger = new WinstonLogger()
 	) {}
 
 	async getData() {
-		const repos: ResponseRepositorys[] = await axios.get(config.URL_REPOSITORY, {headers: {'Authorization': `token ${config.TOKEN_GITHUB}`}})
+		const repos: ResponseRepositories[] = await axios.get(config.URL_REPOSITORY, {headers: {'Authorization': `token ${config.TOKEN_GITHUB}`}})
 			.then(res => {
 				this.logger.log.http(`${res.config.method?.toLocaleUpperCase()} ${res.status}  ${res.config.url}`);
 				return res.data;
