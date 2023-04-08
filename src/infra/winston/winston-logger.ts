@@ -21,11 +21,11 @@ export class WinstonLogger implements Logger<winston.Logger>{
 				}),
 				new transports.File({
 					level: 'info',
-					filename: `${__dirname}/../../logs/${this.data}.log`
+					filename: `${__dirname}/../../logs/${formatTime(this.data, 'yyyy-MM-dd')}.log`
 				}),
 				new transports.File({
 					level: 'error',
-					filename: `${__dirname}/../../logs/err/${this.data}.log`
+					filename: `${__dirname}/../../logs/err/${formatTime(this.data, 'yyyy-MM-dd')}.log`
 				}),
 				new transports.Console({
 					level: 'debug'
