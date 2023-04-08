@@ -1,10 +1,10 @@
-import { CreateLanguage, LanguagesRepository, QueryLanguage } from '../languages-repository';
+import { CreateRequest, LanguagesRepository, GetResponse } from '../languages-repository';
 
 export class InMemoryLanguagesRepository implements LanguagesRepository {
-	public items: QueryLanguage[] = [];
+	public items: GetResponse[] = [];
 	public id = 0;
 
-	async get(name?: string | undefined): Promise<QueryLanguage[]> {
+	async get(name?: string | undefined): Promise<GetResponse[]> {
 		const languageAlreadyExists = this.items.filter( item => name == item.name).length != 0;
 
 		if(!name && languageAlreadyExists) {
@@ -14,7 +14,7 @@ export class InMemoryLanguagesRepository implements LanguagesRepository {
 		return this.items;
 	}
 
-	async create(data: CreateLanguage): Promise<void> {
+	async create(data: CreateRequest): Promise<void> {
 		this.items.push({id: this.id, ...data});
 	}
 }

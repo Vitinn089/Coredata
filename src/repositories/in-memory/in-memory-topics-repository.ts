@@ -1,10 +1,10 @@
-import { CreateTopic, TopicsRepository, QueryTopic } from '../topics-repository';
+import { CreateRequest, TopicsRepository, GetResponse } from '../topics-repository';
 
 export class InMemoryTopicsRepository implements TopicsRepository {
-	public items: QueryTopic[] = [];
+	public items: GetResponse[] = [];
 	public id = 0;
 
-	async get(name?: string | undefined): Promise<QueryTopic[]> {
+	async get(name?: string | undefined): Promise<GetResponse[]> {
 		const topicAlreadyExists = this.items.filter( item => name == item.name).length != 0;
 
 		if(!name && topicAlreadyExists) {
@@ -14,7 +14,7 @@ export class InMemoryTopicsRepository implements TopicsRepository {
 		return this.items;
 	}
 
-	async create(data: CreateTopic): Promise<void> {
+	async create(data: CreateRequest): Promise<void> {
 		this.items.push({id: this.id, ...data});
 	}
 }

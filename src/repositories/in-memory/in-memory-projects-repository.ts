@@ -1,7 +1,7 @@
-import { CreateProject, ProjectsRepository, QueryProject } from '../projects-repository';
+import { CreateRequest, ProjectsRepository, GetResponse } from '../projects-repository';
 
 export class InMemoryProjectsRepository implements ProjectsRepository {
-	public items: QueryProject[] = [{
+	public items: GetResponse[] = [{
 		id: 'id',
 		name: 'Already exists',
 		title: 'test',
@@ -13,7 +13,7 @@ export class InMemoryProjectsRepository implements ProjectsRepository {
 		image: 'test'
 	}];
 
-	async get(name?: string | undefined): Promise<QueryProject[]>{
+	async get(name?: string | undefined): Promise<GetResponse[]>{
 		const projectAlreadyExists = this.items.filter( item => name == item.name).length != 0;
 
 		if(name) {
@@ -27,7 +27,7 @@ export class InMemoryProjectsRepository implements ProjectsRepository {
 		
 	}
 
-	async create(data: CreateProject): Promise<void> {
+	async create(data: CreateRequest): Promise<void> {
 		this.items.push({...data});
 	}
 }

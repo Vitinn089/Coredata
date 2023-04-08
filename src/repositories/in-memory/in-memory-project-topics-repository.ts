@@ -1,9 +1,9 @@
-import { CreateProjectTopics, ProjectTopicsRepository, QueryAllProjectTopics, QueryProjectTopics } from '../project-topics-repository';
+import { CreateRequest, ProjectTopicsRepository, GetResponse, GetTopicsResponse } from '../project-topics-repository';
 
 export class InMemoryProjectTopicsRepository implements ProjectTopicsRepository {
-	public items: QueryAllProjectTopics[] = [];
+	public items: GetResponse[] = [];
 
-	async get(id?: string | undefined): Promise<QueryAllProjectTopics[]> {
+	async get(id?: string | undefined): Promise<GetResponse[]> {
 		const languageAlreadyExists = this.items.filter( item => id == item.project_id).length != 0;
 
 		if(!id && languageAlreadyExists) {
@@ -13,8 +13,8 @@ export class InMemoryProjectTopicsRepository implements ProjectTopicsRepository 
 		return this.items;
 	}
 
-	async getTopics(project_id: string): Promise<QueryProjectTopics[]> {
-		const items = this.items.map(item => ({...item, topic_name: 'thing'}));
+	async getTopics(project_id: string): Promise<GetTopicsResponse[]> {
+		const items = this.items.map(item => ({...item, name: 'thing'}));
 		const languageAlreadyExists = this.items.filter( item => project_id == item.project_id).length != 0;
 
 		if(!project_id && languageAlreadyExists) {
@@ -24,7 +24,7 @@ export class InMemoryProjectTopicsRepository implements ProjectTopicsRepository 
 		return items;
 	}
 
-	async create(data: CreateProjectTopics): Promise<void> {
-		this.items.push({project_id: data.project_id, topic_id: data.topic_id});
+	async create(data: CreateRequest): Promise<void> {
+		this.items.push({project_id: data.project_id, id: data.id});
 	}
 }
