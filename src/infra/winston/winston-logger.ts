@@ -15,6 +15,9 @@ export class WinstonLogger implements Logger<winston.Logger>{
 				format.printf(info => `${info.level.toLocaleUpperCase()}: ${formatTime(this.data, 'dd/MM/yyyy, HH:mm:ss')} - ${info.message}`)
 			),
 			transports: [
+				new transports.Console({
+					level: 'debug'
+				}),
 				new transports.File({
 					level: 'debug',
 					filename: `${__dirname}/../../logs/debug/${formatTime(this.data, 'yyyy-MM-dd')}.log`
@@ -26,9 +29,6 @@ export class WinstonLogger implements Logger<winston.Logger>{
 				new transports.File({
 					level: 'error',
 					filename: `${__dirname}/../../logs/err/${formatTime(this.data, 'yyyy-MM-dd')}.log`
-				}),
-				new transports.Console({
-					level: 'debug'
 				})
 			]
 		});

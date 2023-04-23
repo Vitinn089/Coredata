@@ -1,7 +1,7 @@
+import path from 'path';
 import Language from '../entities/language';
 import Project from '../entities/project';
 import Topic from '../entities/topic';
-import BdErrorHandler from '../infra/errorHandler/error-handler';
 import { Logger } from '../infra/logger';
 import { ProjectLanguagesRepository } from '../repositories/project-languages-repository';
 import { ProjectTopicsRepository } from '../repositories/project-topics-repository';
@@ -60,8 +60,15 @@ export class GetProjectsUseCases {
 
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		} catch (error: any) {
-			const msg = `Ocorreu um erro ao obter os projetos no banco de dados. ${error}\n`;
-			throw new BdErrorHandler(msg);
+			if (error.statusCode){
+				error.msg = `Ocorreu um erro ao obter os projetos do banco de dados. ${error.msg}\n`;
+				error.trace?.unshift(`[file: ${path.basename(__filename)} method: execute()]`);
+			} else {
+				error.statusCode = 500;
+				error.name = 'InternalServerError';
+				error.trace = [`[file: ${path.basename(__filename)} method: execute()]`];
+			}
+			throw error;
 		}
 	}
 }

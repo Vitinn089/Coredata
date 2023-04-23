@@ -5,7 +5,7 @@ export interface ResponseRepositories {
 	languages_url: string,
 	description: string,
     topics: string[],
-	url: string,
+	html_url: string,
 }
 
 export interface RemoteProjectsRepositories {

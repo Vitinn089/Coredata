@@ -1,3 +1,4 @@
+import path from 'path';
 import ErrorHandler from '../infra/errorHandler/error-handler';
 
 export interface LanguageProps {
@@ -12,7 +13,7 @@ export default class Language{
 		const { id, name } = props;
 
 		if (!id || !name)
-			throw new ErrorHandler('The "id" and "name" properties are required!');
+			throw new ErrorHandler({msg: 'The "id" and "name" properties are required!', name: 'InternalServerError', statusCode: 500, trace: [`[file: ${path.basename(__filename)}\tmethod: constructor()]`]});
 
 		this.#props = props;
 	}

@@ -1,3 +1,4 @@
+import path from 'path';
 import ErrorHandler from '../infra/errorHandler/error-handler';
 
 export interface RepositoryProps {
@@ -20,7 +21,7 @@ export default class Repository {
 		const { name, title} = props;
 
 		if (!name || !title)
-			throw new ErrorHandler('The "name", "title" and "display" properties are required!');
+			throw new ErrorHandler({msg: 'The "name", "title" and "display" properties are required!', name: 'InternalServerError', statusCode: 500, trace: [`[file: ${path.basename(__filename)}\tmethod: constructor()]`]});
 
 		this.#props = props;
 	}

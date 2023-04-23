@@ -20,8 +20,12 @@ export class PostgresProjectTopicsRepository implements ProjectTopicsRepository 
 		return (await this.#client).query(this.#sql, !project_id ? [] : [project_id])
 			.then(data => data.rows)
 			.catch(error => {
-				const msg = `method: create() file: ${path.basename(__filename)} erro:${error.detail}`;
-				throw msg;
+				throw {
+					name: 'InternalServerError',
+					trace: [`[file: ${path.basename(__filename)}	method: get()]`],
+					statusCode: 500,
+					msg: `erro:${error.detail}`
+				};
 			});
 	}
 
@@ -31,8 +35,12 @@ export class PostgresProjectTopicsRepository implements ProjectTopicsRepository 
 		return (await this.#client).query(this.#sql, [project_id])
 			.then(data => data.rows)
 			.catch(error => {
-				const msg = `method: create() file: ${path.basename(__filename)} erro:${error.detail}`;
-				throw msg;
+				throw {
+					name: 'InternalServerError',
+					trace: [`[file: ${path.basename(__filename)}	method: getTopics()]`],
+					statusCode: 500,
+					msg: `erro:${error.detail}`
+				};
 			});
 	}
 	
@@ -42,8 +50,12 @@ export class PostgresProjectTopicsRepository implements ProjectTopicsRepository 
 
 		await (await this.#client).query(this.#sql, values)
 			.catch(error => {
-				const msg = `method: create() file: ${path.basename(__filename)} erro:${error.detail}`;
-				throw msg;
+				throw {
+					name: 'InternalServerError',
+					trace: [`[file: ${path.basename(__filename)}	method: create()]`],
+					statusCode: 500,
+					msg: `erro:${error.detail}`
+				};
 			});
 	}
 }

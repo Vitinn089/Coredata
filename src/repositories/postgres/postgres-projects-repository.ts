@@ -20,8 +20,12 @@ export class PostgresProjectsRepository implements ProjectsRepository {
 		return await(await this.#client).query(this.#sql, !name ? [] : [name])
 			.then(data => data.rows)
 			.catch(error => {
-				const msg = `method: get() erro:${error.detail}`;
-				throw msg;
+				throw {
+					name: 'InternalServerError',
+					trace: [`[file: ${path.basename(__filename)}	method: get()]`],
+					statusCode: 500,
+					msg: `erro:${error.detail}`
+				};
 			});
 	}
 
@@ -31,8 +35,12 @@ export class PostgresProjectsRepository implements ProjectsRepository {
 
 		await (await this.#client).query(this.#sql, values)
 			.catch(error => {
-				const msg = `method: create() file: ${path.basename(__filename)} erro:${error.detail}`;
-				throw msg;
+				throw {
+					name: 'InternalServerError',
+					trace: [`[file: ${path.basename(__filename)}	method: create()]`],
+					statusCode: 500,
+					msg: `erro:${error.detail}`
+				};
 			});
 	}
 }

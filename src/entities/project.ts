@@ -1,3 +1,4 @@
+import path from 'path';
 import ErrorHandler from '../infra/errorHandler/error-handler';
 import { arrayToString } from '../utils/array-to-string';
 import Language from './language';
@@ -24,7 +25,7 @@ export default class Project {
 		const { id, name, title} = props;
 
 		if (!id || !name || !title)
-			throw new ErrorHandler('The "id", "name", "title" and "display" properties are required!'); 
+			throw new ErrorHandler({msg: 'The "id", "name", "title" and "display" properties are required!', name: 'InternalServerError', statusCode: 500, trace: [`[file: ${path.basename(__filename)}\tmethod: constructor()]`]});
 
 		this.#props = props;
 	}

@@ -24,7 +24,6 @@ export class InMemoryProjectsRepository implements ProjectsRepository {
 			}
 		}
 		return this.items;
-		
 	}
 
 	async create(data: CreateRequest): Promise<void> {

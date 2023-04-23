@@ -1,6 +1,7 @@
 import { PoolClient } from 'pg';
 import connect from '../../config/postgres';
 import { SchemaRepository } from '../schema-repository';
+import path from 'path';
 
 export class PostgresSchemaRepository implements SchemaRepository {
 	client: Promise<PoolClient>;
@@ -57,6 +58,13 @@ export class PostgresSchemaRepository implements SchemaRepository {
 		);\n`;
 
 		await (await this.client).query(sql)
-			.catch(error => {throw {method: 'create()', error};});
+			.catch(error => {
+				throw {
+					name: 'InternalServerError',
+					trace: [`[file: ${path.basename(__filename)}		method: create()]`],
+					statusCode: 500,
+					msg: `erro:${error.detail}`
+				};
+			});
 	}
 }

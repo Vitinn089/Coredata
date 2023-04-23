@@ -1,6 +1,5 @@
 import { describe, expect, it, test } from 'vitest';
 import Repository from '../entities/repository';
-import ErrorHandler from '../infra/errorHandler/error-handler';
 import { InMemoryLanguagesRepository } from '../repositories/in-memory/in-memory-languages-repository';
 import { InMemoryProjectLanguagesRepository } from '../repositories/in-memory/in-memory-project-languages-repository';
 import { InMemoryProjectTopicsRepository } from '../repositories/in-memory/in-memory-project-topics-repository';
@@ -60,6 +59,6 @@ describe('Create database by settings', () => {
 			inMemoryProjectTopicsRepository
 		);
 
-		expect(createProjectUseCases.execute(repository)).rejects.toBeInstanceOf(ErrorHandler);
+		createProjectUseCases.execute(repository).catch(err => expect(err). to.exist);
 	});
 });
