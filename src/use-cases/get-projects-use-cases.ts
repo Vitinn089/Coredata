@@ -61,7 +61,7 @@ export class GetProjectsUseCases {
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		} catch (error: any) {
 			if (error.statusCode){
-				error.msg = `Ocorreu um erro ao obter os projetos do banco de dados. ${error.msg}\n`;
+				error.msg = `Ocorreu um erro ao obter os projetos do banco de dados. ${error.msg}`;
 				error.trace?.unshift(`[file: ${path.basename(__filename)} method: execute()]`);
 			} else {
 				error.statusCode = 500;

@@ -1,13 +1,13 @@
 import { PoolClient } from 'pg';
-import connect from '../../config/postgres';
+import pool from '../../config/postgres';
 import { SchemaRepository } from '../schema-repository';
 import path from 'path';
 
 export class PostgresSchemaRepository implements SchemaRepository {
-	client: Promise<PoolClient>;
+	#client: Promise<PoolClient>;
 	
 	constructor() {
-		this.client = connect();
+		this.#client = pool().connect();
 	}
 
 	async create() {
@@ -57,13 +57,13 @@ export class PostgresSchemaRepository implements SchemaRepository {
 			CONSTRAINT fk_topic FOREIGN KEY(topic_id) REFERENCES tb_topics(topic_id)
 		);\n`;
 
-		await (await this.client).query(sql)
+		await (await this.#client).query(sql)
 			.catch(error => {
 				throw {
 					name: 'InternalServerError',
-					trace: [`[file: ${path.basename(__filename)}		method: create()]`],
+					trace: [`\n[file: ${path.basename(__filename)}		method: create()]`],
 					statusCode: 500,
-					msg: `erro:${error.detail}`
+					msg: `erro: ${error.detail}`
 				};
 			});
 	}

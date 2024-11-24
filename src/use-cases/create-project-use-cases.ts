@@ -26,10 +26,9 @@ export class  CreateProjectUseCases {
 	async execute(project: CreateProjectUseCasesRequest) {
 		const id = uuidv4();
 		try {
-			await this.schemaRepository?.create();
 
 			if((await this.projectsRepository.get(project.name)).length)
-				throw {msg: `O projeto ${project.name} já existe no banco de dados.`};
+				return this.logger?.log.info(`O projeto ${project.name} já existe no banco de dados.`);
 
 			await this.projectsRepository.create({
 				id,

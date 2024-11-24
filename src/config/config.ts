@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 
 dotenv.config({
-	path: process.env.NODE_ENV === 'development ' ? '.env.develop' : process.env.NODE_ENV === 'test' ? '.env.testing' : '.env'
+	path: process.env.NODE_ENV === 'develop' ? '.env.develop' : process.env.NODE_ENV === 'test' ? '.env.testing' : '.env'
 });
 
 export default {

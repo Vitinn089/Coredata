@@ -6,7 +6,7 @@ const logger = new WinstonLogger();
 
 export default (err: ErrorHandler, req: Request, res: Response, next: NextFunction) => {
 	if (err && err.statusCode) {
-		logger.log.error(`${err.msg} info: ${err.trace}`);
+		logger.log.error(`${err.msg}\ninfo: ${err.trace}`);
 	
 		res.status(err.statusCode).json({
 			statusCode: err.statusCode,

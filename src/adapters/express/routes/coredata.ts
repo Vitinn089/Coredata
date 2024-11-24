@@ -19,6 +19,7 @@ const postgresProjectLanguagesRepository = new PostgresProjectLanguagesRepositor
 const postgresProjectTopicsRepository = new PostgresProjectTopicsRepository();
 const githubRemoteProjectsRepositories = new GithubRemoteProjectsRepositories();
 const winstonLogger = new WinstonLogger();
+
 const controller = new CoredataController(
 	postgresSchemaRepository,
 	postgresProjectsRepository,

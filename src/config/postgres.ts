@@ -1,14 +1,15 @@
 import { Pool } from 'pg';
 
-export default async function connect() {
-	if (global.connection)
-		return await global.connection.connect();
-
+export default function connect() {
 	const pool = new Pool({
-		connectionString: `postgresql://${ process.env.PGUSER }:${ process.env.PGPASSWORD }@${ process.env.PGHOST }:${ process.env.PGPORT }/${ process.env.PGDATABASE }`
+		host: process.env.PGHOST,
+		port: Number(process.env.PGPORT),
+		database: process.env.PGDATABASE,
+		user: process.env.PGUSER,
+		password: process.env.PGPASSWORD,
+		max: 10, // Máximo de conexões no pool
+		idleTimeoutMillis: 30000 // Tempo para desconectar conexões ociosas
 	});
 
-	//guardando para usar sempre o mesmo
-	global.connection = pool;
-	return await pool.connect();
+	return  pool;
 }

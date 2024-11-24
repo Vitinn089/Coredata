@@ -1,6 +1,6 @@
 import path from 'path';
 import { PoolClient } from 'pg';
-import connect from '../../config/postgres';
+import pool from '../../config/postgres';
 import { CreateRequest, LanguagesRepository } from '../languages-repository';
 
 export class PostgresLanguagesRepository implements LanguagesRepository{
@@ -8,7 +8,7 @@ export class PostgresLanguagesRepository implements LanguagesRepository{
 	#sql: string;
 
 	constructor() {
-		this.#client = connect();
+		this.#client = pool().connect();
 		this.#sql = '';
 	}
 	
@@ -24,7 +24,7 @@ export class PostgresLanguagesRepository implements LanguagesRepository{
 					name: 'InternalServerError',
 					trace: [`[file: ${path.basename(__filename)}	method: get()]`],
 					statusCode: 500,
-					msg: `erro:${error.detail}`
+					msg: `erro: ${error.detail}`
 				};
 			});
 	}
@@ -37,9 +37,9 @@ export class PostgresLanguagesRepository implements LanguagesRepository{
 			.catch(error => {
 				throw {
 					name: 'InternalServerError',
-					trace: [`[file: ${path.basename(__filename)}	method: create()]`],
+					trace: [`\n[file: ${path.basename(__filename)}	method: create()]`],
 					statusCode: 500,
-					msg: `erro:${error.detail}`
+					msg: `erro: ${error.detail}`
 				};
 			});
 	}

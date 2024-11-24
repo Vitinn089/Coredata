@@ -38,5 +38,21 @@ export default [
 		site: '',
 		cover:'',
 		image:''
-	}
+	},
+	{
+		name:'blog-de-gatos',
+		title:'Blog de gatos',
+		display:false,
+		site: '',
+		cover:'',
+		image:''
+	},
+	{
+		name:'biscoito-da-sorte',
+		title:'Biscoito da sorte',
+		display:false,
+		site: '',
+		cover:'',
+		image:''
+	},
 ];

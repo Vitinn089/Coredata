@@ -6,8 +6,8 @@
   "scripts": {
     "start": "node  dist/main",
     "start:build": "npm run build && node  dist/main",
-    "start:dev:debug": "set NODE_ENV=development && ts-node-dev --inspect=0.0.0.0:9229 src/main",
-    "start:dev": "set NODE_ENV=development && ts-node-dev src/main",
+    "start:dev": "set NODE_ENV=develop&& ts-node-dev src/main",
+    "start:dev:debug": "set NODE_ENV=develop&& ts-node-dev --inspect=0.0.0.0:9229 src/main",
     "build": "npx tsc",
     "test": "vitest"
   },

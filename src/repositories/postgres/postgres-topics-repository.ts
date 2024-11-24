@@ -1,6 +1,6 @@
 import path from 'path';
 import { PoolClient } from 'pg';
-import connect from '../../config/postgres';
+import pool from '../../config/postgres';
 import { CreateRequest, TopicsRepository } from '../topics-repository';
 
 export class PostgresTopicsRepository implements TopicsRepository {
@@ -8,7 +8,7 @@ export class PostgresTopicsRepository implements TopicsRepository {
 	#sql: string;
 
 	constructor() {
-		this.#client = connect();
+		this.#client = pool().connect();
 		this.#sql = '';
 	}
 
@@ -22,9 +22,9 @@ export class PostgresTopicsRepository implements TopicsRepository {
 			.catch(error => {
 				throw {
 					name: 'InternalServerError',
-					trace: [`[file: ${path.basename(__filename)}method: get()]`],
+					trace: [`\n[file: ${path.basename(__filename)}method: get()]`],
 					statusCode: 500,
-					msg: `erro:${error.detail}`
+					msg: `erro: ${error.detail}`
 				};
 			});
 	}
@@ -37,9 +37,9 @@ export class PostgresTopicsRepository implements TopicsRepository {
 			.catch(error => {
 				throw {
 					name: 'InternalServerError',
-					trace: [`[file: ${path.basename(__filename)}method: create()]`],
+					trace: [`\n[file: ${path.basename(__filename)}method: create()]`],
 					statusCode: 500,
-					msg: `erro:${error.detail}`
+					msg: `erro: ${error.detail}`
 				};
 			});
 	}

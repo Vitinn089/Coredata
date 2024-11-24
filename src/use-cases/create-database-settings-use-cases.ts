@@ -35,23 +35,20 @@ export class CreateDatabaseSettingsUseCases {
 				this.logger
 			);
 			const repositorys = await this.remoteProjectsRepositories.getData();
+			await this.schemaRepository?.create();
 			
 			for (const repository of repositorys) {
-				const projectAlreadyExists = await this.projectsRepository.get(repository.name);
-	
-				if (!projectAlreadyExists.length)
-					await createProjectUseCases.execute(repository);
+				await createProjectUseCases.execute(repository);
 			}
-
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		} catch (error: any) {
 			if (error.statusCode){
-				error.msg = `Um erro ocorreu enquanto atualizava o banco de dados. ${error.msg}\n`;
+				error.msg = `Um erro ocorreu enquanto atualizava o banco de dados. ${error.msg}`;
 				error.trace?.unshift(`file: ${path.basename(__filename)}, method: execute()`);
 			} else {
 				error.statusCode = 500;
 				error.name = 'InternalServerError';
-				error.trace = [`file: ${path.basename(__filename)}, method: execute()`];
+				error.trace = [`file: ${path.basename(__filename)} method: execute()`];
 			}
 			throw error;
 		}
