@@ -16,6 +16,6 @@ export interface CreateInterface {
 
 export interface ProjectLanguagesRepositoryInterface {
 	get: (project_id?: string) => Promise<GetResponse[]>;
-	getLanguages: (project_id: string) => Promise<GetLanguagesResponse[]>;
+	getLanguages: (project_id: string) => Promise<string[]>;
 	create: (data: CreateInterface) => Promise<void>;
 }

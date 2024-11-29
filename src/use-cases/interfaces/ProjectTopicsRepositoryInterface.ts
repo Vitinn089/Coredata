@@ -17,6 +17,6 @@ export interface CreateInterface {
 
 export interface ProjectTopicsRepositoryInterface {
 	get: (project_id?: string) => Promise<GetResponse[]>;
-	getTopics: (project_id: string) => Promise<GetTopicsResponse[]>;
+	getTopics: (project_id: string) => Promise<string[]>;
 	create: (data: CreateInterface) => Promise<void>;
 }

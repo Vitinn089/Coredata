@@ -1,7 +1,6 @@
 import path from 'path';
 import ErrorHandler from '../infra/errorHandler/error-handler';
 
-
 export interface ProjectProps {
 	id: string;
 	name: string;
