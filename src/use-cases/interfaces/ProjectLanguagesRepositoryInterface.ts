@@ -1,5 +1,3 @@
-import { Language } from '../../entities/Project';
-
 export interface GetResponse {
 	project_id: string,
 	id: number
@@ -18,6 +16,6 @@ export interface CreateInterface {
 
 export interface ProjectLanguagesRepositoryInterface {
 	get: (project_id?: string) => Promise<GetResponse[]>;
-	getLanguages: (project_id: string) => Promise<Language[]>;
+	getLanguages: (project_id: string) => Promise<GetLanguagesResponse[]>;
 	create: (data: CreateInterface) => Promise<void>;
 }

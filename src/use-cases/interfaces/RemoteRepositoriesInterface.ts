@@ -1,5 +1,6 @@
 import { RepositoryProps } from '../../entities/Repository';
 
+
 export interface RemoteRepositoriesInterface {
 
 	getAll: () => Promise<[RepositoryProps]>

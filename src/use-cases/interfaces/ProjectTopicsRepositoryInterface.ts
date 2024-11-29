@@ -1,4 +1,3 @@
-import { Topic } from '../../entities/Project';
 
 export interface GetResponse {
 	project_id: string,
@@ -18,6 +17,6 @@ export interface CreateInterface {
 
 export interface ProjectTopicsRepositoryInterface {
 	get: (project_id?: string) => Promise<GetResponse[]>;
-	getTopics: (project_id: string) => Promise<Topic[]>;
+	getTopics: (project_id: string) => Promise<GetTopicsResponse[]>;
 	create: (data: CreateInterface) => Promise<void>;
 }
