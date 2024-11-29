@@ -9,7 +9,7 @@ export default class ErrorHandler extends Error implements IErrorHandler {
 	constructor(error: IError) {
 		super(error.msg);
 		this.msg = error.msg;
-		this.statusCode = error.statusCode;
+		this.statusCode = error.statusCode ?? 400;
 		this.name = error.name;
 		this.trace = error.trace;
 	}

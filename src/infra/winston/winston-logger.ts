@@ -27,6 +27,13 @@ export class WinstonLogger implements Logger<winston.Logger>{
 					filename: `${__dirname}/../../logs/${formatTime(this.data, 'yyyy-MM-dd')}.log`
 				}),
 				new transports.File({
+					level: 'http',
+					filename: `${__dirname}/../../logs/http/${formatTime(this.data, 'yyyy-MM-dd')}.log`,
+					format: format.combine(
+						format((info) => (info.level === 'http' ? info : false))(), // Filtra apenas 'http'
+					),
+				}),
+				new transports.File({
 					level: 'error',
 					filename: `${__dirname}/../../logs/err/${formatTime(this.data, 'yyyy-MM-dd')}.log`
 				})

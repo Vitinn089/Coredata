@@ -1,6 +1,6 @@
-import { Pool } from 'pg';
+import { Pool} from 'pg';
 
-export default function connect() {
+export default async function connect() {
 	const pool = new Pool({
 		host: process.env.PGHOST,
 		port: Number(process.env.PGPORT),

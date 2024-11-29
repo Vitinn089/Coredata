@@ -1,6 +1,8 @@
 import { Pool } from 'pg';
 
+export {};
+
 /* eslint-disable no-var */
 declare global {
-	var connection: Pool;
+	type Connection = Pool;
 }
