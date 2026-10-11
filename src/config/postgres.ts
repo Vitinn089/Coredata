@@ -8,7 +8,8 @@ export default async function connect() {
 		user: process.env.PGUSER,
 		password: process.env.PGPASSWORD,
 		max: 10, // Máximo de conexões no pool
-		idleTimeoutMillis: 30000 // Tempo para desconectar conexões ociosas
+		idleTimeoutMillis: 30000, // Tempo para desconectar conexões ociosas
+		ssl: true
 	});
 
 	return  pool;
